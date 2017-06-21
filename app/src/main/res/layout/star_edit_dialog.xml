@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingStart="20sp"
+    android:paddingEnd="20sp">
+
+    <TextView
+        android:id="@+id/dg_star_details"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/star_details"
+        android:textSize="16dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/dg_star_name_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/star_name"
+        android:textSize="10dp"/>
+
+    <EditText
+        android:id="@+id/dg_star_name_value"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/dg_star_type_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/star_type_title"
+        android:textSize="10dp"/>
+
+    <!--<EditText-->
+        <!--android:id="@+id/dg_star_type_value"-->
+        <!--android:layout_width="200dp"-->
+        <!--android:layout_height="wrap_content"/>-->
+
+    <Spinner
+        android:id="@+id/dg_start_type_value"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/dg_star_x_coord_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/star_x_coord"
+        android:textSize="10dp"/>
+
+    <EditText
+        android:id="@+id/dg_star_x_coord_value"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/dg_star_y_coord_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/star_y_coord"
+        android:textSize="10dp"/>
+
+    <EditText
+        android:id="@+id/dg_star_y_coord_value"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/send_star"
+            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:text="@string/send_star"
+            android:layout_weight="1"
+            style="@style/btnStyle"/>
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:text="@string/cancel"
+            android:layout_weight="1"
+            style="@style/btnStyle"/>
+
+    </LinearLayout>
+
+</LinearLayout>

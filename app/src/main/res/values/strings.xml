@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Stars</string>
+
+    <string name="prompt_uname">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_uname">This username is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="star_name">Star name</string>
+    <string name="star_x_coord">X coord</string>
+    <string name="star_y_coord">Y coord</string>
+    <string name="person_discovered_title">Discoverer</string>
+    <string name="person_discovered_name">Person</string>
+    <string name="star_type_title">Star type</string>
+    <string name="star_type_value">Star type value</string>
+    <string name="edit_star">Edit star</string>
+    <string name="logout">Logout</string>
+    <string name="new_star">New star</string>
+    <string name="star_details">Star details</string>
+    <string name="send_star">Send</string>
+    <string name="cancel">Cancel</string>
+</resources>
