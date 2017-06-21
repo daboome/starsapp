@@ -20,8 +20,6 @@ import java.util.List;
 public class FoldingCellListAdapter extends ArrayAdapter<Star> {
 
     private HashSet<Integer> unfoldedIndexes = new HashSet<>();
-    private View.OnClickListener defaultRequestBtnClickListener;
-
 
     public FoldingCellListAdapter(Context context, List<Star> objects) {
         super(context, 0, objects);
@@ -48,12 +46,12 @@ public class FoldingCellListAdapter extends ArrayAdapter<Star> {
             viewHolder.tvTitleStarType = (TextView) cell.findViewById(R.id.title_star_type_value);
             viewHolder.tvContentStarType = (TextView) cell.findViewById(R.id.content_star_type_value);
             viewHolder.tvDiscoveredPerson = (TextView) cell.findViewById(R.id.content_person_name);
-            viewHolder.tvContentRequestBtn = (TextView) cell.findViewById(R.id.content_request_btn);
+            viewHolder.tvContentEditStarBtn = (TextView) cell.findViewById(R.id.content_edit_btn);
+            viewHolder.tvContentDeleteStarBtn = (TextView) cell.findViewById(R.id.content_delete_btn);
             viewHolder.rlTitleStarColor = (RelativeLayout) cell.findViewById(R.id.title_star_color);
             viewHolder.rlContentStarColor = (RelativeLayout) cell.findViewById(R.id.content_star_color);
             cell.setTag(viewHolder);
         } else {
-            // for existing cell set valid valid state(without animation)
             if (unfoldedIndexes.contains(position)) {
                 cell.unfold(true);
             } else {
@@ -61,7 +59,6 @@ public class FoldingCellListAdapter extends ArrayAdapter<Star> {
             }
             viewHolder = (ViewHolder) cell.getTag();
         }
-        // bind data from selected element to view through view holder
         viewHolder.tvTitleStarName.setText(star.getStarName());
         viewHolder.tvContentStarName.setText(star.getStarName());
         viewHolder.tvTitleXcoord.setText(star.getXcoord());
@@ -73,17 +70,15 @@ public class FoldingCellListAdapter extends ArrayAdapter<Star> {
         viewHolder.tvDiscoveredPerson.setText(star.getDiscoveredPerson());
         viewHolder.rlTitleStarColor.setBackgroundColor(Color.parseColor(star.getStarType().getColor()));
         viewHolder.rlContentStarColor.setBackgroundColor(Color.parseColor(star.getStarType().getColor()));
-        // set custom btn handler for list star from that star
         if (star.getEditStarBtnClickListener() != null) {
-            viewHolder.tvContentRequestBtn.setOnClickListener(star.getEditStarBtnClickListener());
-        } else {
-            // (optionally) add "default" handler if no handler found in star
-            viewHolder.tvContentRequestBtn.setOnClickListener(defaultRequestBtnClickListener);
+            viewHolder.tvContentEditStarBtn.setOnClickListener(star.getEditStarBtnClickListener());
+        }
+        if (star.getDeleteStarBtnClickListener() != null) {
+            viewHolder.tvContentDeleteStarBtn.setOnClickListener(star.getDeleteStarBtnClickListener());
         }
         return cell;
     }
 
-    // simple methods for register cell state changes
     public void registerToggle(int position) {
         if (unfoldedIndexes.contains(position))
             registerFold(position);
@@ -99,15 +94,6 @@ public class FoldingCellListAdapter extends ArrayAdapter<Star> {
         unfoldedIndexes.add(position);
     }
 
-    public View.OnClickListener getDefaultRequestBtnClickListener() {
-        return defaultRequestBtnClickListener;
-    }
-
-    public void setDefaultRequestBtnClickListener(View.OnClickListener defaultRequestBtnClickListener) {
-        this.defaultRequestBtnClickListener = defaultRequestBtnClickListener;
-    }
-
-    // View lookup cache
     private static class ViewHolder {
         RelativeLayout rlTitleStarColor;
         RelativeLayout rlContentStarColor;
@@ -120,6 +106,7 @@ public class FoldingCellListAdapter extends ArrayAdapter<Star> {
         TextView tvTitleStarType;
         TextView tvContentStarType;
         TextView tvDiscoveredPerson;
-        TextView tvContentRequestBtn;
+        TextView tvContentEditStarBtn;
+        TextView tvContentDeleteStarBtn;
     }
 }

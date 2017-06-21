@@ -17,9 +17,11 @@
     <string name="star_type_title">Star type</string>
     <string name="star_type_value">Star type value</string>
     <string name="edit_star">Edit star</string>
+    <string name="delete_star">Delete star</string>
     <string name="logout">Logout</string>
     <string name="new_star">New star</string>
     <string name="star_details">Star details</string>
+    <string name="star_delete_confirm">Delete this star?</string>
     <string name="send_star">Send</string>
     <string name="cancel">Cancel</string>
 </resources>

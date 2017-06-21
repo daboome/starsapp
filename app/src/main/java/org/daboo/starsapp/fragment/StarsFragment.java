@@ -26,6 +26,7 @@ import org.daboo.starsapp.ui.FoldingCellListAdapter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -44,7 +45,9 @@ public class StarsFragment extends BaseFragment implements Callback<StarsCollect
     @Bind(R.id.add_new_star)
     FloatingActionButton floatingActionButton;
 
-    private Set<String> starTypes = new HashSet<>();
+    StarsFragment starsFragment;
+
+    private Set<StarType> starTypes = new HashSet<>();
 
     public static StarsFragment newInstance(String username) {
         final Bundle args = new Bundle();
@@ -68,11 +71,12 @@ public class StarsFragment extends BaseFragment implements Callback<StarsCollect
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String starTypeValue = starTypes.iterator().next();
+                String starTypeValue = starTypes.iterator().next().getValue();
                 Star star = new Star("star name", "x coord", "y coord", new StarType(starTypeValue, "#00000"), "person");
                 showEditStarDialog(star, starTypes);
             }
         });
+        starsFragment = this;
     }
 
     @Override
@@ -86,12 +90,19 @@ public class StarsFragment extends BaseFragment implements Callback<StarsCollect
             StarsCollection starsCollection = response.body();
             List<Star> stars = starsCollection.getAllStars();
             for (final Star star : stars) {
-                starTypes.add(star.getStarType().getValue());
+                starTypes.add(star.getStarType());
 
                 star.setEditStarBtnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         showEditStarDialog(star, starTypes);
+                    }
+                });
+
+                star.setDeleteStarBtnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showDeleteStarDialog(star);
                     }
                 });
             }
@@ -115,20 +126,27 @@ public class StarsFragment extends BaseFragment implements Callback<StarsCollect
 
     }
 
-    private void showEditStarDialog(Star star, Set<String> starTypes) {
+    private void showEditStarDialog(final Star star, final Set<StarType> starTypes) {
         final Dialog starEditDialog = new Dialog(getActivity());
         starEditDialog.setContentView(R.layout.star_edit_dialog);
 
-        Spinner spinner = (Spinner) starEditDialog.findViewById(R.id.dg_start_type_value);
-        EditText etStarName = (EditText) starEditDialog.findViewById(R.id.dg_star_name_value);
-        EditText etStarXCoord = (EditText) starEditDialog.findViewById(R.id.dg_star_x_coord_value);
-        EditText etStarYCoord = (EditText) starEditDialog.findViewById(R.id.dg_star_y_coord_value);
+        final Spinner spinner = (Spinner) starEditDialog.findViewById(R.id.dg_start_type_value);
+        final EditText etStarName = (EditText) starEditDialog.findViewById(R.id.dg_star_name_value);
+        final EditText etStarXCoord = (EditText) starEditDialog.findViewById(R.id.dg_star_x_coord_value);
+        final EditText etStarYCoord = (EditText) starEditDialog.findViewById(R.id.dg_star_y_coord_value);
+        final EditText etStarDiscoveredPerson = (EditText) starEditDialog.findViewById(R.id.dg_star_discovered_person_value);
+
         etStarName.setText(star.getStarName());
         etStarXCoord.setText(star.getXcoord());
         etStarYCoord.setText(star.getYcoord());
+        etStarDiscoveredPerson.setText(star.getDiscoveredPerson());
 
         List<String> starTypeValues = new ArrayList<>();
-        starTypeValues.addAll(starTypes);
+        Iterator<StarType> iterator = starTypes.iterator();
+        while (iterator.hasNext()) {
+            StarType starType = iterator.next();
+            starTypeValues.add(starType.getValue());
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item, starTypeValues);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -138,23 +156,62 @@ public class StarsFragment extends BaseFragment implements Callback<StarsCollect
             spinner.setSelection(spinnerPosition);
         }
 
-        Button okBtn = (Button) starEditDialog.findViewById(R.id.send_star);
+        final Button okEdit = (Button) starEditDialog.findViewById(R.id.ok_edit_star);
 
-        okBtn.setOnClickListener(new View.OnClickListener() {
+        okEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                star.setStarName(etStarName.getText().toString());
+                star.setXcoord(etStarXCoord.getText().toString());
+                star.setYcoord(etStarYCoord.getText().toString());
+                star.setDiscoveredPerson(etStarDiscoveredPerson.getText().toString());
+                Iterator<StarType> starTypeIterator = starTypes.iterator();
+                String starTypeValue = (String) spinner.getSelectedItem();
+                while (starTypeIterator.hasNext()) {
+                    StarType starType = starTypeIterator.next();
+                    if (starType.getValue().equalsIgnoreCase(starTypeValue)) star.setStarType(starType);
+                }
+                RPC.postStar(star, starsFragment);
                 starEditDialog.dismiss();
             }
         });
 
-        Button cancelBtn = (Button) starEditDialog.findViewById(R.id.cancel);
+        final Button cancelBtn = (Button) starEditDialog.findViewById(R.id.cancel);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 starEditDialog.dismiss();
             }
         });
+
         starEditDialog.show();
+    }
+
+    private void showDeleteStarDialog(final Star star) {
+        final Dialog starDeleteDialog = new Dialog(getActivity());
+        starDeleteDialog.setContentView(R.layout.star_delete_dialog);
+
+        final TextView tvStarName = (TextView) starDeleteDialog.findViewById(R.id.dg_star_delete_name);
+        tvStarName.setText(star.getStarName());
+
+        final Button okDelete = (Button) starDeleteDialog.findViewById(R.id.ok_delete_star);
+        okDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RPC.deleteStar(star, starsFragment);
+                starDeleteDialog.dismiss();
+            }
+        });
+
+        final Button cancelBtn = (Button) starDeleteDialog.findViewById(R.id.cancel);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                starDeleteDialog.dismiss();
+            }
+        });
+
+        starDeleteDialog.show();
     }
 
 }

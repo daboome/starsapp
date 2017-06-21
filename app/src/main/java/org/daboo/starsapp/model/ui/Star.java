@@ -10,6 +10,8 @@ import lombok.Data;
 
 @Data
 public class Star {
+    private Long id;
+    private Integer version;
     private String starName;
     private String xcoord;
     private String ycoord;
@@ -17,6 +19,8 @@ public class Star {
     private String discoveredPerson;
     @JsonIgnore
     private View.OnClickListener editStarBtnClickListener;
+    @JsonIgnore
+    private View.OnClickListener deleteStarBtnClickListener;
 
     public Star() {
 

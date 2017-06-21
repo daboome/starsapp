@@ -67,13 +67,25 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/dg_star_discovered_person_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/person_discovered_title"
+        android:textSize="10dp"/>
+
+    <EditText
+        android:id="@+id/dg_star_discovered_person_value"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/send_star"
+            android:id="@+id/ok_edit_star"
             android:layout_height="20dp"
             android:layout_width="wrap_content"
             android:text="@string/send_star"

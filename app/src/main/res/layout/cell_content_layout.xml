@@ -152,18 +152,41 @@
 
         </LinearLayout>
 
-        <!-- edit button -->
-        <TextView
-            android:id="@+id/content_request_btn"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@color/btnRequest"
-            android:padding="10dp"
-            android:text="@string/edit_star"
-            android:textAlignment="center"
-            android:textColor="@color/mainTextColor"
-            android:textSize="20sp" />
+            android:orientation="horizontal">
+
+            <!-- edit button -->
+            <TextView
+                android:id="@+id/content_edit_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/btnRequest"
+                android:padding="10dp"
+                android:text="@string/edit_star"
+                android:textAlignment="center"
+                android:textColor="@color/mainTextColor"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                style="@style/btnStyle"/>
+
+            <TextView
+                android:id="@+id/content_delete_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="10dp"
+                android:text="@string/delete_star"
+                android:textAlignment="center"
+                android:textColor="@color/mainTextColor"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                style="@style/btnStyle"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
