@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+def server_address = System.getProperty('serverAddress', project.getProperties().get('serverAddress', "http://10.0.3.2"))
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -12,9 +14,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            resValue "string", "server_address", server_address
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "server_address", server_address
         }
     }
     packagingOptions {
