@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ramotion.foldingcell.FoldingCell;
 
@@ -198,6 +199,11 @@ public class StarsFragment extends BaseFragment implements Callback<StarsCollect
         okDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (star.getStarType().getValue().equalsIgnoreCase("YELLOW")) {
+                    Toast.makeText(getActivity(), "Yallow star can't be deleted", Toast.LENGTH_SHORT).show();
+                    starDeleteDialog.dismiss();
+                    return;
+                }
                 RPC.deleteStar(star, starsFragment);
                 starDeleteDialog.dismiss();
             }
